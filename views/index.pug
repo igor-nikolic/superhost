@@ -1,0 +1,64 @@
+extends layout
+block append styles
+  link(rel='stylesheet',href='/stylesheets/main.css')
+block content
+  #banner.row.justify-content-center.align-items-center.banner-holder
+    .col
+      section.inner
+        h1 I am Super Host
+        p Let your space work for you.
+      video.video(autoplay='', loop='', muted='', playsinline='', src='images/cover-video.mp4')
+  .row.py-5
+    .col.text-center
+      h1 This is not luxury
+  .row.justify-content-around
+    .col-md-3.col-sm-5.m-5.m-sm-1.m-md-2.icon-container
+      i.fas.fa-home.favicon
+      h4 BUILD YOUR LISTING WITH US
+    .col-md-3.col-sm-5.m-5.m-sm-1.m-md-2.icon-container
+      i.fas.fa-exchange-alt.favicon
+      h4 CHECK-IN AND CHECK-OUT HAS NEVER BEEN EASIER
+    .col-md-3.col-sm-5.m-5.m-sm-1.m-md-2.icon-container
+      i.fas.fa-broom.favicon
+      h4 FULL CLEANING SERVICES
+    .col-md-3.col-sm-5.m-5.m-sm-1.m-md-2.icon-container
+      i.fas.fa-headset.favicon
+      h4 24/7 SUPPORT
+    .col-md-3.col-sm-5.m-5.m-sm-1.m-md-2.icon-container
+      i.fas.fa-paper-plane.favicon
+      h4 FAST REPLIES - WITHIN 5 MINUTES
+    .col-md-3.col-sm-5.m-5.m-sm-1.m-md-2.icon-container
+      i.fas.fa-shopping-basket.favicon
+      h4 ONLINE SHOPPING
+  .row.justify-content-center.goal-container
+    .col
+      h2 OUR GOAL
+      p
+        | Super Host is our primary goal. Our agency provides full service in retail business managing multiple
+        | platforms. We know how hard is to be Super Host and to manage Your place beside Your other job. We are fully
+        | committed to things we do that’s why our client dream is also our own dream and client is not just a number he
+        | is a family. As a family we share same success of working together towards Your goal. Full service is not a
+        | luxury it’s a need. Managing account, managing cleaning, managing supplying, organizing calendar, opening
+        | listings on other platforms, supervising the account are just ordinary things when it comes to doing the job
+        | right. “Let Your space do all the work for You” that is our motto. Why to work when You can just relax and let
+        | money flow in Your life.
+  .team-container
+    .row.justify-content-center
+      .col
+        h2 OUR TEAM
+    .row.justify-content-center
+      .col-md-3.ml-md-2.mr-md-2.icon-container
+        blockquote Svetlana is in charge of market research and finding best price for Your B&B
+        .author.align-items-center
+          img(src='images/pic02.jpg')
+          span Goran Mrvic - CEO of the worlds biggest company
+      .col-md-3.ml-md-2.mr-md-2.icon-container
+        blockquote
+        .author.align-items-center
+          img(src='images/pic02.jpg')
+          span Goran - CEO
+      .col-md-3.ml-md-2.mr-md-2.icon-container
+        blockquote
+        .author.align-items-center
+          img(src='images/pic02.jpg')
+          span Goran - CEO

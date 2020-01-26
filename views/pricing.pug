@@ -1,0 +1,40 @@
+extends layout
+block append styles
+  //- link(rel='stylesheet',href='/stylesheets/main.css')
+block content
+  .pricing-header.px-3.py-3.pt-md-5.pb-md-4.mx-auto.text-center
+    h1.display-4 Pricing
+    p.lead
+      | Not every place deserves same commission. You know Your place, so You know what commission suits
+      | You the best.
+  .card-deck.mb-3.text-center
+    .card.mb-4.shadow-sm
+      .card-header
+        h4.my-0.font-weight-normal Variable commission
+      .card-body
+        h1.card-title.pricing-card-title
+          | 7% 
+          small.text-muted / month
+        ul.list-unstyled.mt-3.mb-4
+          li Best for places with variable earnings
+        button.btn.btn-lg.btn-block.btn-outline-primary.payBtn(type='button', data-type='percentage') Pay
+    .card.mb-4.shadow-sm
+      .card-header
+        h4.my-0.font-weight-normal Price per room
+      .card-body
+        h1.card-title.pricing-card-title
+          | $100 
+          small.text-muted / month
+        ul.list-unstyled.mt-3.mb-4
+          li Best for places with high earnings
+        button.btn.btn-lg.btn-block.btn-primary.payBtn(type='button', data-type='room') Pay
+    .card.mb-4.shadow-sm
+      .card-header
+        h4.my-0.font-weight-normal Price per apartment
+      .card-body
+        h1.card-title.pricing-card-title
+          | $200 
+          small.text-muted / month
+        ul.list-unstyled.mt-3.mb-4
+          li Best for places with high earnings
+        button.btn.btn-lg.btn-block.btn-primary.payBtn(type='button', data-type='apartment') Pay

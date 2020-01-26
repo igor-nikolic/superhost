@@ -1,0 +1,9 @@
+{
+  "paypal": {
+    "sandboxEmail": "sb-etakn929202@business.example.com",
+    "clientID": "AWpktsEGw75b2zNUDs_Xb7czeGk3QbM3FUMETWAMFrH9oWTYwWS_uaSSdxPVcg7Vi9TFq2oYUOUfOl-9",
+    "secret": "EEiWB7NucVPlFf_AO8CrULgYScXsiBCV6-kH_6WsccCZvYG1cSdpGeZI2en3Awg7Qqtd_ep0YrpjN8HT",
+    "sURI": "https://api.sandbox.paypal.com"
+  },
+  "URI": "http://localhost:5500"
+}
