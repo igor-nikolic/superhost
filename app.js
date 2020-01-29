@@ -40,7 +40,7 @@ app.use(session({
   name: '_redisTest',
   secret: config.get('sessionSecret'),
   resave: false,
-  cookie: { secure: false, maxAge: 60000 }, // Set to secure:false and expire in 1 minute for demo purposes
+  cookie: { secure: false, maxAge: 600000 }, // Set to secure:false and expire in 1 minute for demo purposes
   saveUninitialized: true
 }));
 

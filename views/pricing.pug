@@ -2,7 +2,7 @@ extends layout
 block append styles
   //- link(rel='stylesheet',href='/stylesheets/main.css')
 block content
-  .pricing-header.px-3.py-3.pt-md-5.pb-md-4.mx-auto.text-center
+  .pricing-header.px-3.py-3.pt-md-5.pb-md-4.mt-3.mx-auto.text-center
     h1.display-4 Pricing
     p.lead
       | Not every place deserves same commission. You know Your place, so You know what commission suits
@@ -17,7 +17,10 @@ block content
           small.text-muted / month
         ul.list-unstyled.mt-3.mb-4
           li Best for places with variable earnings
-        button.btn.btn-lg.btn-block.btn-outline-primary.payBtn(type='button', data-type='percentage') Pay
+        if user            
+          button.btn.btn-lg.btn-block.btn-primary.payBtn(type='button', data-type='percentage') Pay
+        else
+          a.btn.btn-success(href='/login', role='button') Login to continue
     .card.mb-4.shadow-sm
       .card-header
         h4.my-0.font-weight-normal Price per room
@@ -27,7 +30,10 @@ block content
           small.text-muted / month
         ul.list-unstyled.mt-3.mb-4
           li Best for places with high earnings
-        button.btn.btn-lg.btn-block.btn-primary.payBtn(type='button', data-type='room') Pay
+        if user
+          button.btn.btn-lg.btn-block.btn-primary.payBtn(type='button', data-type='room') Pay
+        else
+          a.btn.btn-success(href='/login', role='button') Login to continue
     .card.mb-4.shadow-sm
       .card-header
         h4.my-0.font-weight-normal Price per apartment
@@ -37,4 +43,7 @@ block content
           small.text-muted / month
         ul.list-unstyled.mt-3.mb-4
           li Best for places with high earnings
-        button.btn.btn-lg.btn-block.btn-primary.payBtn(type='button', data-type='apartment') Pay
+        if user
+          button.btn.btn-lg.btn-block.btn-primary.payBtn(type='button', data-type='apartment') Pay
+        else
+          a.btn.btn-success(href='/login', role='button') Login to continue   

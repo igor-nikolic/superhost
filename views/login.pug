@@ -14,13 +14,14 @@ block content
       form(action="/auth/login",method="post")
         .form-group
           label(for='loginEmail') Email address
-          input#loginEmail.form-control(type='email', aria-describedby='emailHelp',name="loginEmail",value= email ? email:"")
+          input#loginEmail.form-control(type='email', aria-describedby='emailHelp', name="loginEmail",value= email ? email:"")
           .invalid-feedback.d-none Email not available! Please try another one!      
         .form-group
           label(for='loginPassword') Password
-          input#loginPassword.form-control(type='password',name="loginPassword")
-        .alert.alert-danger.d-none(role='alert')
-          | A simple danger alert—check it out!
+          input#loginPassword.form-control(type='password', name="loginPassword")
+        if fail  
+          .alert.alert-danger(role='alert')
+            | #{fail}
         button.btn.btn-primary.mx-auto(type='submit') Login
         if newUser
           #registeredModal.modal.fade(tabindex='-1', role='dialog')
