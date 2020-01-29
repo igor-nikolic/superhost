@@ -19,6 +19,18 @@ class User {
       );
     });
   }
+  getUserDataByEmail() {
+    return new Promise((resolve, reject) => {
+      sql.query(
+        "SELECT * FROM user WHERE email = ?",
+        [this.email],
+        (err, res) => {
+          if (err) reject(err);
+          resolve(res[0]);
+        }
+      );
+    });
+  }
   registerUser() {
     return new Promise((resolve, reject) => {
       sql.query(

@@ -1,6 +1,12 @@
 extends layout
 block append styles
   link(rel='stylesheet',href='/stylesheets/main.css')
+block append scripts
+  if newUser
+    script.
+      $(document).ready(() => {
+        $('#registeredModal').modal('show');
+      });  
 block content
   .row.justify-content-center
     .col-md-3.my-md-5
@@ -8,19 +14,17 @@ block content
       form(action="/auth/login",method="post")
         .form-group
           label(for='loginEmail') Email address
-          input#loginEmail.form-control.is-invalid(type='email', aria-describedby='emailHelp',name="loginEmail",value= email ? email:"")
-          .invalid-feedback Email not available! Please try another one!      
+          input#loginEmail.form-control(type='email', aria-describedby='emailHelp',name="loginEmail",value= email ? email:"")
+          .invalid-feedback.d-none Email not available! Please try another one!      
         .form-group
           label(for='loginPassword') Password
           input#loginPassword.form-control(type='password',name="loginPassword")
-        .alert.alert-danger(role='alert')
+        .alert.alert-danger.d-none(role='alert')
           | A simple danger alert—check it out!
         button.btn.btn-primary.mx-auto(type='submit') Login
-        #registeredModal.modal.fade(tabindex='-1', role='dialog')
-          .modal-dialog
-            .modal-content
-              .modal-header
-                button.close(type='button', data-dismiss='modal') ×
-                .signin-form.profile
-                  h3.agileinfo_sign Registration complete! 
-
+        if newUser
+          #registeredModal.modal.fade(tabindex='-1', role='dialog')
+            .modal-dialog.modal-lg
+              .modal-content
+                .modal-header
+                    h2.mx-auto Registration completed! You can login now! 

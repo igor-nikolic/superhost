@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-
+const passport = require('passport');
 const User = require("../db/model/User");
 
-router.post("/login", (req, res, next) => {
-  const { loginEmail, loginPassword } = req.body;
-});
+router.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: false
+  })
+);
 router.post("/register", async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   try {
@@ -31,5 +35,12 @@ router.post("/checkemail", async (req, res, next) => {
   user.email = email;
   const available = await user.checkEmailAvailability();
   res.json({ available });
+});
+router.get('/logout', (req, res, next) => {
+  // var expireTime = new Date(req.session.cookie.expires) - new Date();
+  req.logout();
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
 });
 module.exports = router;
