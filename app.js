@@ -9,7 +9,7 @@ const redis = require('redis');
 const redisStore = require('connect-redis')(session);
 const config = require('config');
 const passport = require('passport');
-
+const helmet = require('helmet');
 
 //Router files
 const indexRouter = require("./routes/index");
@@ -19,6 +19,9 @@ const authRouter = require("./routes/auth");
 const connection = require("./db/connection");
 
 const app = express();
+
+//Helmet
+app.use(helmet());
 
 //Passport config
 require('./config/passport')(passport);
@@ -98,6 +101,7 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
+//Routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);

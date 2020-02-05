@@ -9,6 +9,20 @@ router.get("/", (req, res, next) => {
   res.render("index", locals);
 });
 
+router.get('/about', (req, res, next) => {
+  const locals = {};
+  req.user ? locals.user = req.user : locals.user = false;
+  locals.title = 'Super Host | About Page'
+  res.render("about", locals);
+})
+
+router.get('/platform', (req, res, next) => {
+  const locals = {};
+  req.user ? locals.user = req.user : locals.user = false;
+  locals.title = 'Super Host | Platform we support'
+  res.render("platform", locals);
+})
+
 router.get("/pricing", (req, res, next) => {
   const locals = {};
   req.user ? locals.user = req.user : locals.user = false;
@@ -36,7 +50,7 @@ router.get("/register", (req, res, next) => {
   locals.title = "Super Host | Register";
   const qs = req.query;
   console.log(qs);
-  qs.error ? locals.error = ['Server Error! Please try again later'] : locals.error = null;
+  qs.error ? locals.errors = ['Server Error! Please try again later'] : locals.errors = null;
   return res.render("register", locals);
 });
 

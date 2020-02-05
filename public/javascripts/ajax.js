@@ -1,3 +1,4 @@
+document.get
 $(document).ready(() => {
   $(document).on("click", ".payBtn", e => {
     console.log("clciked");

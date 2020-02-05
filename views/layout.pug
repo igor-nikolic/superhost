@@ -5,12 +5,13 @@ html
     block styles
       link(rel='stylesheet',href='/stylesheets/dist/bootstrap.min.css')   
   body
-    include components/nav.pug
+    include components/nav
     main.container-fluid(role='main')
       block content
     block scripts
       script(src='/javascripts/dist/jquery-3.4.1.min.js')
       script(src='/javascripts/dist/bootstrap.bundle.min.js')
       script(src='https://kit.fontawesome.com/85c5e091ad.js', crossorigin='anonymous')
+    include components/footer
 
 

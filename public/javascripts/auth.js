@@ -1,110 +1,77 @@
-$(document).ready(() => {
-  // Email availability check
-  $(document).on("blur", "#email", e => {
-    if (!e.currentTarget.value) return;
-    if (
-      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        e.currentTarget.value
-      )
-    ) {
-      $("#mailNotify")
-        .removeClass("d-none")
-        .addClass("d-block")
-        .text("Please enter a valid email format!");
-      $("#email")
-        .removeClass("is-valid")
-        .addClass("is-invalid");
-      return;
-    } else {
-      $("#mailNotify")
-        .removeClass("d-block")
-        .addClass("d-none")
-        .text("");
-      $("#email")
-        .removeClass("is-invalid")
-        .addClass("is-valid");
-    }
-    $.ajax({
-      type: "POST",
-      url: "/auth/checkemail",
-      dataType: "json",
-      contentType: "application/json",
-      data: JSON.stringify({ email: e.currentTarget.value }),
-      success: data => {
-        if (data.available) {
-          $("#email")
-            .removeClass("is-invalid")
-            .addClass("is-valid");
-          $("#mailNotify")
-            .removeClass("d-block")
-            .addClass("d-none");
-        } else {
-          $("#email")
-            .removeClass("is-valid")
-            .addClass("is-invalid");
-          $("#mailNotify")
-            .removeClass("d-none")
-            .addClass("d-block")
-            .text("Email not available! Please try another one!");
-        }
-      },
-      error: (xhr, type, exception) => {
-        console.log(type);
-        console.log(exception);
-      }
-    });
+document.querySelector("#email").addEventListener("blur", checkEmail, false);
+async function checkEmail() {
+  let email = this.value;
+  if (!email) return;
+  if (
+    !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    )
+  ) return notifyEmail(false, "Please enter a valid email format!");
+  let res = await fetch("/auth/checkemail", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email }),
   });
-  // Form validation
-  $("#registerForm").on("submit", e => {
-    console.log(e.currentTarget.value);
-  });
-
-  // Password check
-  $(document).on("blur", "#password2", e => {
-    const p2 = e.currentTarget.value;
-    if (!p2) return;
-    const p = $("#password").val();
-    console.log(`p1 ${p} p2 ${p2}`);
-    if (p === p2) {
-      $("#password")
-        .removeClass("is-invalid")
-        .addClass("is-valid");
-      $("#password2")
-        .removeClass("is-invalid")
-        .addClass("is-valid");
-      $("#passwordsNotify")
-        .removeClass("d-none invalid-feedback")
-        .addClass("d-block valid-feedback")
-        .text("Passwords match");
-    } else {
-      $("#password")
-        .removeClass("is-valid")
-        .addClass("is-invalid");
-      $("#password2")
-        .removeClass("is-valid")
-        .addClass("is-invalid");
-      $("#passwordsNotify")
-        .removeClass("d-none valid-feedback")
-        .addClass("invalid-feedback d-block")
-        .text("Passwords do not match");
-    }
-  });
-  // Password strength check
-  $(document).on("blur", "#password", e => {
-    const p = e.currentTarget.value;
-    const prgx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-    if (prgx.test(p)) {
-      $("#passwordNotify")
-        .removeClass("d-none invalid-feedback")
-        .addClass("d-block valid-feedback")
-        .text("Password is strong enough");
-    } else {
-      $("#passwordNotify")
-        .removeClass("d-none valid-feedback")
-        .addClass("invalid-feedback d-block")
-        .text(
-          "Password must be between 6 and 20 characters and contain at least one numeric digit, one uppercase and one lowercase letter"
-        );
-    }
-  });
-});
+  let data = await res.json();
+  data.available ? notifyEmail(true, "Email is available") : notifyEmail(false, "Email is already taken! Try another");
+}
+function notifyEmail(passed, message) {
+  let mailField = document.querySelector("#email");
+  let mailNotify = document.querySelector("#mailNotify");
+  mailNotify.classList.remove("d-none");
+  mailNotify.classList.add("d-block");
+  mailNotify.innerHTML = message;
+  if (passed) {
+    mailNotify.classList.remove('invalid-feedback');
+    mailField.classList.remove("is-invalid");
+    mailNotify.classList.add('valid-feedback');
+    mailField.classList.add('is-valid');
+  } else {
+    mailField.classList.remove("is-valid");
+    mailNotify.classList.remove('valid-feedback');
+    mailField.classList.add('is-invalid');
+    mailNotify.classList.add('invalid-feedback');
+  }
+}
+document.querySelector("#password2").addEventListener("blur", checkPasswords, false);
+function checkPasswords() {
+  let p2 = this.value;
+  if (!p2) return;
+  let p1 = document.querySelector("#password").value;
+  let pNotify = document.querySelector("#passwordsNotify");
+  if (p1 === p2) {
+    this.classList.remove("is-invalid");
+    this.classList.add("is-valid");
+    pNotify.classList.remove("d-none", "invalid-feedback");
+    pNotify.classList.add("d-block", "valid-feedback");
+    pNotify.innerHTML = "Passwords match";
+  } else {
+    this.classList.remove("is-valid");
+    this.classList.add("is-invalid");
+    pNotify.classList.remove("d-none", "valid-feedback");
+    pNotify.classList.add("invalid-feedback", "d-block");
+    pNotify.innerHTML = "Passwords don't match!";
+  }
+}
+document.querySelector("#password").addEventListener("blur", checkPasswordStrength, false);
+function checkPasswordStrength() {
+  const p = this.value;
+  if (!p) return;
+  const prgx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+  const pNotify = document.querySelector("#passwordNotify");
+  if (prgx.test(p)) {
+    pNotify.classList.remove("d-none", "invalid-feedback");
+    pNotify.classList.add("d-block", "valid-feedback");
+    pNotify.innerHTML = "Password is strong enough!";
+    p.classList.remove("is-invalid");
+    p.classList.add("is-valid");
+  } else {
+    pNotify.classList.remove("d-none", "valid-feedback");
+    pNotify.classList.add("d-block", "invalid-feedback");
+    pNotify.innerHTML = "Password must be between 6 and 20 characters long and contain at least one numeric digit, one uppercase and one lowercase letter";
+    p.classList.remove("is-valid");
+    p.classList.add("is-invalid");
+  }
+}

@@ -60,8 +60,7 @@ main {
   background-color: white;
   padding: 1rem;
   text-align: center;
-  border-radius: 4px;
-  border: 1px solid #000;
+  border-radius: 10px;
 }
 .favicon {
   font-size: 5rem;
@@ -112,12 +111,14 @@ h6 {
 }
 .author img {
   border-radius: 100%;
-  width: 20%;
+  max-width:100%;
   margin-right: 2rem;
 }
 .author .image {
-  margin-right: 1rem;
-  width: 20%;
+  /* margin-right: 1rem; */
+  width: 25%;
+  min-width: 25%;
+  max-width:25%;
 }
 .author {
   display: flex;
@@ -128,3 +129,19 @@ blockquote {
   margin: 0 0 2rem 0;
   padding: 1rem 0 1rem 2rem;
 }
+.team-container blockquote{
+  font-family: "Raleway";
+  text-align: left;
+}
+.credit strong{
+  color:#ce1b28;
+}
+.credit{
+  margin:0 auto;
+  font-family: "Raleway Light";
+  font-size: 0.75rem;
+}
+.credit span{
+  font-style: italic;
+}
+
