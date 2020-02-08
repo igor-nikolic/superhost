@@ -1,4 +1,6 @@
 extends layout
+block append metaTags
+  meta(name="description", content="Welcome to I am Super Host, platform for rental management and co-hosting services!")
 block append styles
   link(rel='stylesheet',href='/stylesheets/main.css')
 block content
@@ -72,7 +74,7 @@ block content
       .card.card-flip.h-100
         .card-front.text-white.bg-secondary
           .card-body
-            i.fas.fa-shopping-basket.favicon
+            i.far.fa-envelope.favicon
             h4 AUTO MESSAGES
         .card-back.bg-white
           .card-body

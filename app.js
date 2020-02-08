@@ -35,12 +35,13 @@ redisClient.on("ready", () => {
   console.log("Redis ready!")
 });
 
+// app.set('trust proxy', 1);
 app.use(session({
   genid: (req) => {
     return uuidv4();
   },
   store: new redisStore({ host: 'localhost', port: 6379, client: redisClient }),
-  name: '_redisTest',
+  name: 'superhost',
   secret: config.get('sessionSecret'),
   resave: false,
   cookie: { secure: false, maxAge: 600000 }, // Set to secure:false and expire in 1 minute for demo purposes
@@ -87,7 +88,7 @@ app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404));
+  next(createError(404, 'Page not found!'));
 });
 
 // error handler
