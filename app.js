@@ -1,7 +1,7 @@
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
-const cookieParser = require("cookie-parser");
+//const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const uuidv4 = require('uuid/v4');
 const session = require('express-session');
@@ -23,6 +23,20 @@ const app = express();
 //Helmet
 app.use(helmet());
 
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 //Passport config
 require('./config/passport')(passport);
 
@@ -35,7 +49,8 @@ redisClient.on("ready", () => {
   console.log("Redis ready!")
 });
 
-// app.set('trust proxy', 1);
+//app.set('trust proxy', 1);
+let expiryDate = new Date(Date.now() + 1000 * 60 * 60 * 24) //24 hours
 app.use(session({
   genid: (req) => {
     return uuidv4();
@@ -43,8 +58,13 @@ app.use(session({
   store: new redisStore({ host: 'localhost', port: 6379, client: redisClient }),
   name: 'superhost',
   secret: config.get('sessionSecret'),
-  resave: false,
-  cookie: { secure: false, maxAge: 600000 }, // Set to secure:false and expire in 1 minute for demo purposes
+  resave: true,
+  unset: 'destroy',
+  cookie: {
+    secure: false,
+    httpOnly: false,
+    expires: expiryDate
+  },
   saveUninitialized: true
 }));
 
@@ -65,20 +85,7 @@ connection.connect(err => {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 
 app.use("/", indexRouter);

@@ -24,11 +24,13 @@ module.exports = function (passport) {
   ));
 
   passport.serializeUser((user, done) => {
+    console.log(`${JSON.stringify(user)}`);
     done(null, user.id);
   });
 
-  passport.deserializeUser(async (id, done) => {
+  passport.deserializeUser((id, done) => {
     mysql.query("SELECT * FROM user WHERE id = ?", [id], function (err, rows) {
+      console.log(`id je ${id}`);
       done(err, rows[0]);
     });
   });
